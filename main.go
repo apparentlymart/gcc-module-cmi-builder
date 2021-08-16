@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -10,6 +9,7 @@ import (
 
 func main() {
 	p := protocol.NewParser(os.Stdin)
+	w := protocol.NewWriter(os.Stdout)
 	for {
 		block, err := p.NextBlock()
 		if err != nil {
@@ -18,6 +18,9 @@ func main() {
 		if len(block) == 0 {
 			break
 		}
-		fmt.Printf("%#v\n", block)
+		err = w.WriteBlock(block)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }

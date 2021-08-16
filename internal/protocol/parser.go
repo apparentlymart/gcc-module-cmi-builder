@@ -13,10 +13,6 @@ var tokenRE = regexp.MustCompile(
 	`^[ \t]*(\n|;|'(?:\\'|[^'])*'|[-+_/%.A-Za-z0-9]+)`,
 )
 
-type Message []string
-
-type Block []Message
-
 type Parser struct {
 	sc *bufio.Scanner
 }
