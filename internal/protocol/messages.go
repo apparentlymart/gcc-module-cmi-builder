@@ -1,13 +1,18 @@
 package protocol
 
+import (
+	"fmt"
+	"strconv"
+)
+
 type Message []string
 
 type Block []Message
 
 var OKMessage = Message{"OK"}
 
-func ErrorMessage(message string) Message {
-	return Message{"ERROR", message}
+func ErrorMessage(f string, args ...interface{}) Message {
+	return Message{"ERROR", fmt.Sprintf(f, args...)}
 }
 
 func PathNameMessage(pathName string) Message {
@@ -22,5 +27,14 @@ func BoolMessage(v bool) Message {
 		return BoolTrueMessage
 	} else {
 		return BoolFalseMessage
+	}
+}
+
+func HandshakeResponseMessage(version int, builder string, flags int) Message {
+	return Message{
+		"HELLO",
+		strconv.FormatInt(int64(version), 10),
+		builder,
+		strconv.FormatInt(int64(flags), 10),
 	}
 }
