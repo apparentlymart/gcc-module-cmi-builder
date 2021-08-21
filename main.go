@@ -12,7 +12,13 @@ func main() {
 	p := protocol.NewParser(os.Stdin)
 	w := protocol.NewWriter(os.Stdout)
 
-	err := conversation.Run(p, w)
+	c := conversation.New(p, w)
+
+	if cc := os.Getenv("CROSS_COMPILE"); cc != "" {
+		c.SetCrossCompilePrefix(cc)
+	}
+
+	err := c.Run(p, w)
 	if err != nil {
 		log.Fatal(err)
 	}
